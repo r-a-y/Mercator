@@ -549,6 +549,16 @@ function handle_login_response() {
 
 	// Verified, let's boop.
 	if ( is_user_logged_in() && get_current_user_id() === $token['user'] ) {
+		/*
+		 * If logged-in cookie is somehow cleared, set auth cookie again.
+		 *
+		 * This can occur with overzealous cookie clearing and fixes a
+		 * potential redirect loop.
+		 */
+		if ( '' === wp_get_session_token() ) {
+			wp_set_auth_cookie( $token['user'], true, '', $args['token'] );
+		}
+
 		// Nothing to do.
 		wp_redirect( $token['back'] );
 		exit;
