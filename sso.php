@@ -543,6 +543,15 @@ function handle_login_response() {
 		exit;
 	}
 
+	/**
+	 * Filters the back URL used when the user gets redirected after SSO.
+	 *
+	 * @since 1.0.x
+	 *
+	 * @param string $back Redirect URL.
+	 */
+	$back = apply_filters( 'mercator.sso.back_url', $token['back'] );
+
 	// Verified, let's boop.
 	if ( is_user_logged_in() && get_current_user_id() === $token['user'] ) {
 		/*
@@ -556,7 +565,7 @@ function handle_login_response() {
 		}
 
 		// Nothing to do.
-		wp_redirect( $token['back'] );
+		wp_redirect( $back );
 		exit;
 	}
 
@@ -564,6 +573,6 @@ function handle_login_response() {
 	wp_set_auth_cookie( $token['user'], true, '', $args['token'] );
 
 	// Logged in, return to sender.
-	wp_redirect( $token['back'] );
+	wp_redirect( $back );
 	exit;
 }
