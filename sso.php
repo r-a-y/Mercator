@@ -222,7 +222,16 @@ function get_action_url( $action, $args = array() ) {
 	$defaults = array(
 		'action' => $action,
 	);
-	$args = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Filters the arguments for the action URL.
+	 *
+	 * @since 1.0.x
+	 *
+	 * @param array $args Arguments for action URL.
+	 */
+	$args = apply_filters( 'mercator.sso.action_args', wp_parse_args( $args, $defaults ) );
+
 	$url = add_query_arg( urlencode_deep( $args ), $script_url );
 
 	return apply_filters( 'mercator.sso.action_url', $url, $action, $args );
