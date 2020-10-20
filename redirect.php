@@ -4,7 +4,7 @@ namespace Mercator\Redirect;
 
 use Mercator\Mapping;
 
-add_action( 'plugins_loaded', __NAMESPACE__ . '\handle_redirect' );
+add_action( 'send_headers', __NAMESPACE__ . '\handle_redirect' );
 
 function is_enabled( $mapping = null ) {
 	$mapping = $mapping ?: $GLOBALS['mercator_current_mapping'];
